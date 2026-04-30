@@ -58,7 +58,7 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./fakestore-frontend
       dockerfile: Dockerfile
     container_name: frontend-react
     ports:
