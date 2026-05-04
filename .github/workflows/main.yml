@@ -26,7 +26,7 @@ jobs:
       - name: Run Maven Tests
         run: |
           cd ${{ matrix.service }}
-          mvn test -DskipTests # BEHÖVER UPPDATERAS SÅ TESTERNA KÖRS SEN
+          mvn test
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
