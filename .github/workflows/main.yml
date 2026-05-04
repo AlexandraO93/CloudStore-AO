@@ -60,22 +60,22 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/cloudstore-frontend:latest
 
   deploy:
-    needs: [build-and-test-backend, build-frontend] # Väntar på att dina jobb ovan blir klara
+    needs: [build-and-test-backend, build-frontend] 
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Körs bara vid push till main
     runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
           - service: fakestore-users-service
-            host: ${{ secrets.EC2_HOST_USERS }}
+            host_env_name: EC2_HOST_USERS
             port: 8080
             container_name: users-service
           - service: fakestore-product-service
-            host: ${{ secrets.EC2_HOST_PRODUCTS }}
+            host_env_name: EC2_HOST_PRODUCTS
             port: 8081
             container_name: product-service
           - service: cloudstore-frontend
-            host: ${{ secrets.EC2_HOST_FRONTEND }}
+            host_env_name: EC2_HOST_FRONTEND
             port: 80
             container_name: frontend-service
 
@@ -83,7 +83,7 @@ jobs:
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: ${{ matrix.host }}
+          host: ${{ secrets[matrix.host_env_name] }}
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
