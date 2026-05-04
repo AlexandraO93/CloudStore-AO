@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class FakestoreCustomerServiceApplication {
+public class FakestoreUsersServiceApplication {
 
     @Bean
     public RestTemplate restTemplate() {
@@ -14,7 +14,7 @@ public class FakestoreCustomerServiceApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(FakestoreCustomerServiceApplication.class, args);
+        SpringApplication.run(FakestoreUsersServiceApplication.class, args);
     }
 
 }

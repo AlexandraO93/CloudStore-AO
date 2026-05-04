@@ -40,7 +40,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.setAllowedOriginPatterns(List.of(
-                "http://localhost:*"
+                "http://localhost:*",
+                "http://13.61.35.20"
         ));
 
         config.setAllowedMethods(List.of(

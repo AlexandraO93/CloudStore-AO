@@ -5,6 +5,8 @@ function App() {
     const [password, setPassword] = useState('');
     const [token, setToken] = useState(localStorage.getItem('token')); // Hämta befintlig token
     const [products, setProducts] = useState([]);
+    const USER_SERVICE_URL = "http://ec2-13-51-166-242.eu-north-1.compute.amazonaws.com:8080";
+    const PRODUCT_SERVICE_URL = "http://ec2-51-21-168-99.eu-north-1.compute.amazonaws.com:8081";
 
     // Denna körs automatiskt när "token" ändras
     useEffect(() => {
@@ -15,7 +17,7 @@ function App() {
 
     const handleLogin = async () => {
         try {
-            const response = await fetch('http://localhost:8080/request-token', {
+            const response = await fetch(`${USER_SERVICE_URL}/request-token`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({email, password})
@@ -36,7 +38,7 @@ function App() {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:8081/products', {
+            const response = await fetch(`${PRODUCT_SERVICE_URL}/products`, {
                 headers: {'Authorization': `Bearer ${token}`}
             });
             if (response.ok) {

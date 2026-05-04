@@ -6,6 +6,7 @@ target/
 .env
 private.pem
 public.pem
+fakestore-key-pair.pem
 
 ### STS ###
 .apt_generated
@@ -43,7 +44,6 @@ dist-ssr
 .eslintcache
 
 # --- Docker ---
-.env
 mysql_data/
 
 # --- Övrigt ---
