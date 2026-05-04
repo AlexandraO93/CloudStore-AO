@@ -10,6 +10,7 @@ import org.springframework.test.context.ActiveProfiles;
 import se.jensen.alexandra.fakestoreuserservice.dto.UserRequestDTO;
 import se.jensen.alexandra.fakestoreuserservice.dto.UserResponseDTO;
 import se.jensen.alexandra.fakestoreuserservice.model.User;
+import se.jensen.alexandra.fakestoreuserservice.repository.OrderRepository;
 import se.jensen.alexandra.fakestoreuserservice.repository.UserRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,9 +28,12 @@ public class UserServiceTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private OrderRepository orderRepository;
 
     @BeforeEach
     public void setUp() {
+        orderRepository.deleteAll();
         userRepository.deleteAll();
     }
 
@@ -67,18 +71,14 @@ public class UserServiceTest {
         UserRequestDTO dto = new UserRequestDTO(1L, "Test", "Test", "test@mail.com", "password123", "Testvägen 1", "0701234567");
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            userService.addUser(dto);
-        });
+        assertThrows(IllegalArgumentException.class, () -> userService.addUser(dto));
     }
 
     // 3 Test för att säkerställa att vi får felmeddelande om användaren saknas
     @Test
     public void getUserById_shouldThrowException_whenNotFound() {
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            userService.getUserById(999L);
-        });
+        assertThrows(IllegalArgumentException.class, () -> userService.getUserById(999L));
     }
 
     // 4 Hämtar användare, verifierar rätt förnamn och mail

@@ -22,7 +22,6 @@ import se.jensen.alexandra.fakestoreuserservice.model.Order;
 import se.jensen.alexandra.fakestoreuserservice.model.User;
 import se.jensen.alexandra.fakestoreuserservice.repository.OrderRepository;
 import se.jensen.alexandra.fakestoreuserservice.repository.UserRepository;
-import se.jensen.alexandra.fakestoreuserservice.security.JwtSigner;
 
 import java.util.List;
 
@@ -45,12 +44,6 @@ public class OrderServiceTest {
 
     @MockBean
     private RestTemplate restTemplate;
-
-    @MockBean
-    private JwtSigner jwtSigner;
-
-    @MockBean
-    private TokenService tokenService;
 
     private User testUser;
 
@@ -94,7 +87,7 @@ public class OrderServiceTest {
         assertNotNull(result);
         assertEquals(Order.Status.CREATED.toString(), result.status());
         assertFalse(result.items().isEmpty());
-        assertEquals(5000.0, result.items().get(0).price());
+        assertEquals(5000.0, result.items().getFirst().price());
     }
 
     // 2 Testar felhantering om produkt saknas i den externa tjänsten
@@ -108,9 +101,7 @@ public class OrderServiceTest {
                 .thenReturn(ResponseEntity.ok(null));
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> {
-            orderService.createOrder(testUser.getId(), requestDto);
-        });
+        assertThrows(IllegalArgumentException.class, () -> orderService.createOrder(testUser.getId(), requestDto));
     }
 
     // 3 Testar att hämta order via ID
@@ -156,9 +147,7 @@ public class OrderServiceTest {
         Order saved = orderRepository.save(order);
 
         // Act & Assert
-        assertThrows(IllegalStateException.class, () -> {
-            orderService.updateOrderStatus(saved.getOrderId(), Order.Status.SHIPPED);
-        });
+        assertThrows(IllegalStateException.class, () -> orderService.updateOrderStatus(saved.getOrderId(), Order.Status.SHIPPED));
     }
 
     // 6. Testar att avbryta en order
