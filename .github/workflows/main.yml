@@ -1,4 +1,4 @@
-name: CI-Pipeline-CloudStore
+name: CI/CD-Pipeline-CloudStore
 
 on:
   push:
@@ -58,3 +58,53 @@ jobs:
           context: ./fakestore-frontend
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/cloudstore-frontend:latest
+
+  deploy:
+    needs: [build-and-test-backend, build-frontend] 
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Körs bara vid push till main
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - service: fakestore-users-service
+            host_env_name: EC2_HOST_USERS
+            port: 8080
+            container_name: users-service
+          - service: fakestore-product-service
+            host_env_name: EC2_HOST_PRODUCTS
+            port: 8081
+            container_name: product-service
+          - service: cloudstore-frontend
+            host_env_name: EC2_HOST_FRONTEND
+            port: 80
+            container_name: frontend-service
+
+    steps:
+      - name: Deploy to EC2 via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets[matrix.host_env_name] }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Drar ner den nya imagen från DockerHub
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service == 'cloudstore-frontend' && 'cloudstore-frontend' || matrix.service }}:latest
+            
+            # Stoppar gamla containern om den körs
+            docker stop ${{ matrix.container_name }} || true
+            docker rm ${{ matrix.container_name }} || true
+            
+            # Startar containern
+            docker run -d \
+              --name ${{ matrix.container_name }} \
+              -p ${{ matrix.port == 8081 && '8081:8080' || format('{0}:{0}', matrix.port) }} \
+              --restart always \
+              -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL }}" \
+              -e DB_USERNAME="${{ secrets.DB_USERNAME }}" \
+              -e DB_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+              -e PRODUCT_SERVICE_URL="${{ secrets.PRODUCT_SERVICE_URL }}" \
+              -e JWT_ISSUER="${{ secrets.JWT_ISSUER }}" \
+              -e JWT_PRIVATE_KEY="${{ secrets.JWT_PRIVATE_KEY }}" \
+              -e JWT_PUBLIC_KEY="${{ secrets.JWT_PUBLIC_KEY }}" \
+              -e JWKS_URL="${{ secrets.JWKS_URL }}" \
+              ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service == 'cloudstore-frontend' && 'cloudstore-frontend' || matrix.service }}:latest
