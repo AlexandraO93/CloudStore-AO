@@ -1,20 +1,4 @@
 services:
-  mysql-db:
-    image: mysql:8.0
-    container_name: mysql-db
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: fakestore_db
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      timeout: 5s
-      retries: 10
-      start_period: 10s
-    networks:
-      - cloudstore-net
-
   # Users Service
   users-service:
     build:
@@ -23,15 +7,12 @@ services:
     container_name: users-service
     ports:
       - "8080:8080"
-    depends_on:
-      mysql-db:
-        condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/fakestore_db
-      - PRODUCT_SERVICE_URL=http://product-service:8080/products/
+      - SPRING_DATASOURCE_URL=${DB_URL}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
-      - jwt.issuer=http://localhost:8080
+      - PRODUCT_SERVICE_URL=${PRODUCT_SERVICE_URL}
+      - JWT_ISSUER=${JWT_ISSUER}
       - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
       - JWT_PUBLIC_KEY=${JWT_PUBLIC_KEY}
     networks:
@@ -45,14 +26,11 @@ services:
     container_name: product-service
     ports:
       - "8081:8080"
-    depends_on:
-      mysql-db:
-        condition: service_healthy
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/fakestore_db
+      - SPRING_DATASOURCE_URL=${DB_URL}
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
-      - JWKS_URL=http://users-service:8080/.well-known/jwks.json
+      - JWKS_URL=${JWKS_URL}
     networks:
       - cloudstore-net
 
