@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -88,6 +89,7 @@ public class OrderService {
         return mapper.toDto(savedOrder);
     }
 
+    @Transactional(readOnly = true)
     public List<OrderResponseDTO> getAllOrdersByUser(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
@@ -95,12 +97,14 @@ public class OrderService {
         return orders.stream().map(mapper::toDto).toList();
     }
 
+    @Transactional(readOnly = true)
     public OrderResponseDTO getOrderById(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderId));
         return mapper.toDto(order);
     }
 
+    @Transactional
     public OrderResponseDTO updateOrderStatus(Long orderId, Order.Status newStatus) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderId));
@@ -114,6 +118,7 @@ public class OrderService {
         return mapper.toDto(updatedOrder);
     }
 
+    @Transactional
     public OrderResponseDTO cancelOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderId));

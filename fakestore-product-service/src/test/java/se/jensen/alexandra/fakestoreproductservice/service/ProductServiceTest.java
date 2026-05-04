@@ -3,10 +3,12 @@ package se.jensen.alexandra.fakestoreproductservice.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.RestClient;
 import se.jensen.alexandra.fakestoreproductservice.model.Product;
 import se.jensen.alexandra.fakestoreproductservice.repository.ProductRepository;
@@ -16,11 +18,15 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@WithMockUser
+@AutoConfigureMockMvc
 public class ProductServiceTest {
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @Autowired
     private ProductRepository repository;
@@ -175,5 +181,27 @@ public class ProductServiceTest {
         });
 
         assertEquals(0, repository.count());
+    }
+
+    // 8 Verifierar att man inte kan hämta produkter utan token
+    @Test
+    public void getAllProducts_withoutToken_shouldReturn401() throws Exception {
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/products"))
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isUnauthorized());
+    }
+
+    // 9 Verifierar att man KAN hämta produkter med en giltig JWT-token
+    @Test
+    public void getAllProducts_withValidJwt_shouldReturnProducts() throws Exception {
+        // Arrange: Spara en produkt i H2
+        Product p = new Product();
+        p.setTitle("Secure Product");
+        repository.save(p);
+
+        // Act & Assert: Anropa endpointen med en simulerad JWT
+        mockMvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get("/products")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("SCOPE_read")))) // Simulerar VG-kravet på JWT-säkerhet
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.status().isOk())
+                .andExpect(org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath("$[0].title").value("Secure Product"));
     }
 }
