@@ -25,7 +25,7 @@ public class UserMapper {
         user.setFirstName(dto.firstName());
         user.setLastName(dto.lastName());
         user.setEmail(dto.email());
-        user.setPassword(dto.password()); //Hasha passworden i en riktig applikation
+        user.setPassword(dto.password());
         user.setAddress(dto.address());
         user.setPhone(dto.phone());
     }

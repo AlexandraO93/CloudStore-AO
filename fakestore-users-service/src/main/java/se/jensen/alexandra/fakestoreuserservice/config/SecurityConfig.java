@@ -36,9 +36,10 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         //Öppnar upp för token, och att kunna registrera sig
+                        .requestMatchers(HttpMethod.POST, "/users/register/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/request-token/**").permitAll()
+                        .requestMatchers("/products/**").authenticated()
                         .requestMatchers("/.well-known/jwks.json").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
 
                         //Alla andra enpoints kräver autentisering
                         .anyRequest().authenticated()

@@ -22,7 +22,7 @@ public class UserController {
         this.orderService = orderService;
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> addUser
             (@Valid @RequestBody UserRequestDTO request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUser(request));
