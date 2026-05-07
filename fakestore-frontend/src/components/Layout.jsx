@@ -1,0 +1,66 @@
+import {Outlet, useNavigate} from "react-router-dom";
+import {useAuth} from "../context/useAuth";
+import "./Layout.css";
+import Footer from "./Footer.jsx";
+import NavBar from "./NavBar";
+
+/*
+ * Layout
+ *
+ * Layout-komponenten definierar den gemensamma strukturen
+ * för applikationens sidor.
+ *
+ * Den innehåller:
+ * - ett header-område (titel + globala kontroller)
+ * - ett main-område där sidinnehåll renderas
+ * - ett footer-område som alltid visas
+ *
+ * Headern visar även en logout-knapp när användaren
+ * är inloggad.
+ *
+ * <Outlet /> används av React Router för att rendera
+ * den aktuella routens komponent inuti layouten.
+ *
+ * Layout-komponenten innehåller ingen affärslogik
+ * kopplad till data eller backend, men ansvarar för
+ * global användarinteraktion såsom utloggning.
+ */
+
+const Layout = () => {
+    const {token, logout} = useAuth();
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate("/login", {replace: true});
+    };
+
+    return (
+        <>
+            {token && <NavBar/>}
+
+            <div className="app-wrapper">
+                <header className="app-header">
+                    <h1>Cloudstore-AO</h1>
+
+                    {token && (
+                        <button
+                            className="logout-button"
+                            onClick={handleLogout}
+                        >
+                            Logga ut
+                        </button>
+                    )}
+                </header>
+
+                <main className="app-main">
+                    <Outlet/>
+                </main>
+
+                <Footer/>
+            </div>
+        </>
+    );
+};
+
+export default Layout;

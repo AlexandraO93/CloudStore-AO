@@ -1,0 +1,110 @@
+:root {
+    --footer-height: clamp(90px, 12vh, 120px);
+    --footer-bg: #5f564f;
+    --text-color: rgb(230, 229, 229);
+    --text-color-hover: rgb(188, 185, 185);
+}
+
+.site-footer {
+    position: relative;
+    background-color: var(--footer-bg);
+    color: var(--text-color);
+    padding: 0.5rem clamp(1rem, 3vw, 2.5rem);
+    display: flex;
+    align-items: center;
+    z-index: 1200;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr auto 1.2fr;
+    align-items: center;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    gap: clamp(8px, 2vw, 20px);
+}
+
+.footer-left .contact-line {
+    margin: 0;
+    line-height: 1.2;
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    font-weight: 300;
+    text-align: left;
+}
+
+.contact-line strong {
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.contact-value,
+.contact-line span {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+.footer-left .contact-line .contact-value {
+    display: inline;
+}
+
+.footer-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo-footer {
+    width: clamp(140px, 15vw, 120px);
+    height: auto;
+    margin-top: 0.8rem;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(62, 56, 56, 0.57);
+}
+
+.copyright-text {
+    font-size: clamp(0.4rem, 0.5vw, 0.6rem);
+    margin-top: 5px;
+    opacity: 0.8;
+}
+
+.footer-right nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.footer-right nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+    transition: color 0.3s ease;
+    line-height: 1.6;
+    text-align: right;
+}
+
+.footer-right nav a:hover {
+    color: var(--text-color-hover);
+}
+
+@media (min-width: 768px) {
+    .logo-footer {
+        width: clamp(60px, 15vw, 120px);
+    }
+}
+
+@media (min-width: 1024px) {
+    .logo-footer {
+        width: clamp(60px, 15vw, 90px);
+    }
+}
+
+@media (min-width: 2560px) {
+    .logo-footer {
+        width: clamp(80px, 20vw, 125px);
+    }
+}
