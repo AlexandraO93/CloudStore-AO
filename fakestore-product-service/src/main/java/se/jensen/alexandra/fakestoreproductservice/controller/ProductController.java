@@ -47,8 +47,8 @@ public class ProductController {
     }
 
     @GetMapping("/liked")
-    public ResponseEntity<List<Product>> getLikedProducts(Principal principal) {
-        List<Product> likedProducts = service.findAllLikedByUser(principal.getName());
+    public ResponseEntity<List<Product>> getLikedProducts(@RequestParam String email) {
+        List<Product> likedProducts = service.findAllLikedByUser(email);
         return ResponseEntity.ok(likedProducts);
     }
 }

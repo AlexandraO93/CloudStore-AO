@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {useAuth} from "../context/useAuth";
+import {useAuth} from "../context/useAuth.js";
 import "./ProductDetail.css"
 
 const ProductDetail = () => {

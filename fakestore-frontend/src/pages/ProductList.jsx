@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {useAuth} from "../context/useAuth.js";
-import ProductCard from "./ProductCard.jsx";
+import ProductCard from "../components/ProductCard.jsx";
 import "./ProductList.css";
 
 const ProductList = () => {
@@ -50,28 +50,6 @@ const ProductList = () => {
         };
     }, [token]);
 
-    const handleLikeProduct = async (productId) => {
-        try {
-            const res = await fetch(`http://localhost:8081/products/${productId}/like`, {
-                method: "POST",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (res.ok) {
-
-                setProducts(products.map(p => {
-                    if (p.id === productId) {
-                        return {...p, likedByMe: !p.likedByMe};
-                    }
-                    return p;
-                }));
-            }
-        } catch (error) {
-            console.error("Kunde inte gilla inlägget:", error);
-        }
-    };
 
     return (
         <div>
@@ -83,7 +61,6 @@ const ProductList = () => {
                         <ProductCard
                             key={product.id}
                             product={product}
-                            onLike={handleLikeProduct}
                             isLiked={product.likedByMe}
                         />
                     </div>

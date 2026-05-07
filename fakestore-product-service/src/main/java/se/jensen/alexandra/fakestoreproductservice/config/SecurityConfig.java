@@ -77,7 +77,7 @@ public class SecurityConfig {
     }
 
     @Configuration
-    public class AppConfig {
+    public static class AppConfig {
 
         @Bean
         public RestClient restClient() {

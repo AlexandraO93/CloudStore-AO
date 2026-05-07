@@ -1,12 +1,13 @@
 import './App.css'
 import {Navigate, Route, Routes} from "react-router-dom"; // Fixad import
 import AuthForm from "./components/AuthForm";
-import ProductList from "./components/ProductList";
+import ProductList from "./pages/ProductList.jsx";
 import {useAuth} from "./context/useAuth.js";
 import LoginForm from "./components/LoginForm.jsx";
-import ProductDetail from "./components/ProductDetail.jsx";
+import ProductDetail from "./pages/ProductDetail.jsx";
 import Footer from "./components/Footer.jsx";
 import CloudStoreNavBar from "./components/Navbar.jsx"
+import LikedProducts from "./pages/LikedProducts.jsx";
 
 const StartPage = () => {
     const {token} = useAuth();
@@ -40,6 +41,7 @@ function App() {
                         }
                     />
                     <Route path="/products/:id" element={<ProductDetail/>}/>
+                    <Route path="/products/liked" element={<LikedProducts/>}/>
                     {/* Catch-all: Om man skriver fel URL, skickas man till start */}
                     <Route path="*" element={<Navigate to="/"/>}/>
                 </Routes>

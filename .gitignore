@@ -7,6 +7,7 @@ target/
 private.pem
 public.pem
 fakestore-key-pair.pem
+**/application-dev.properties
 
 ### STS ###
 .apt_generated
