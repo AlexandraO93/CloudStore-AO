@@ -7,8 +7,8 @@ import org.springframework.web.client.RestClient;
 import se.jensen.alexandra.fakestoreproductservice.model.Product;
 import se.jensen.alexandra.fakestoreproductservice.repository.ProductRepository;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ProductService {
@@ -32,11 +32,22 @@ public class ProductService {
                 .body(Product[].class);
 
         if (response != null) {
-            List<Product> products = Arrays.asList(response);
-            // NOLLSTÄLL ID:n för att undvika Optimistic Locking/Merge-problem - uppstod flera gånger
-            products.forEach(product -> product.setId(null));
-
-            repository.saveAll(products);
+            for (Product incomingProduct : response) {
+                repository.findByTitle(incomingProduct.getTitle())
+                        .ifPresentOrElse(
+                                existingProduct -> {
+                                    existingProduct.setPrice(incomingProduct.getPrice());
+                                    existingProduct.setDescription(incomingProduct.getDescription());
+                                    existingProduct.setCategory(incomingProduct.getCategory());
+                                    existingProduct.setImage(incomingProduct.getImage());
+                                    repository.save(existingProduct);
+                                },
+                                () -> {
+                                    incomingProduct.setId(null);
+                                    repository.save(incomingProduct);
+                                }
+                        );
+            }
         }
         return repository.findAll();
     }
@@ -47,5 +58,23 @@ public class ProductService {
 
     public Product getProductById(Long id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Product not found with id: " + id));
+    }
+
+    public void toggleLike(Long id, String email) {
+        Product product = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Produkten hittades inte"));
+
+        if (product.getLikedByEmails().contains(email)) {
+            product.getLikedByEmails().remove(email);
+        } else {
+            product.getLikedByEmails().add(email);
+        }
+
+        repository.save(product);
+    }
+
+    public List<Product> findAllLikedByUser(String email) {
+
+        return repository.findAllByLikedByEmailsContaining(email);
     }
 }

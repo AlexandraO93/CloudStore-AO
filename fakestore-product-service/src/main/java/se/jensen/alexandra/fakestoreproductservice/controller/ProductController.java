@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import se.jensen.alexandra.fakestoreproductservice.model.Product;
 import se.jensen.alexandra.fakestoreproductservice.service.ProductService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -37,5 +38,17 @@ public class ProductController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping("/{id}/like")
+    public ResponseEntity<Void> likeProduct(@PathVariable Long id, Principal principal) {
+        service.toggleLike(id, principal.getName());
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/liked")
+    public ResponseEntity<List<Product>> getLikedProducts(Principal principal) {
+        List<Product> likedProducts = service.findAllLikedByUser(principal.getName());
+        return ResponseEntity.ok(likedProducts);
     }
 }

@@ -2,18 +2,25 @@ package se.jensen.alexandra.fakestoreproductservice.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String title;
     private Double price;
     @Column(columnDefinition = "TEXT")
     private String description;
     private String category;
     private String image;
+
+    @ElementCollection
+    private Set<String> likedByEmails = new HashSet<>();
 
     public Product() {
     }
@@ -64,5 +71,13 @@ public class Product {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Set<String> getLikedByEmails() {
+        return likedByEmails;
+    }
+
+    public void setLikedByEmails(Set<String> likedByEmails) {
+        this.likedByEmails = likedByEmails;
     }
 }
