@@ -1,27 +1,18 @@
-import {useState} from "react";
-import {AuthContext} from "./AuthContext";
-import {API_BASE_URL} from "../config/api";
+import {createContext, useContext, useState} from "react";
+import {AUTH_API_URL} from "../config/api.js";
 
-/*
- * AuthProvider
- *
- * Wrapper-komponent som omsluter hela applikationen.
- * Ansvarar för autentiseringslogik:
- * - håller state för token och customerId
- * - lagrar token och customerId i localStorage
- * - återställer auth-state vid siduppdatering
- * - tillhandahåller login- och logout-funktioner
- *   via AuthContext.Provider
- */
+const AuthContext = createContext(null);
 
 export const AuthProvider = ({children}) => {
-    // Initiera state från localStorage så auth överlever refresh
     const [token, setToken] = useState(localStorage.getItem("token") || null);
     const [customerId, setCustomerId] = useState(localStorage.getItem("customerId") || null);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(() => {
+        const savedEmail = localStorage.getItem("userEmail");
+        return savedEmail ? {email: savedEmail} : null;
+    });
 
     const login = async (email, password) => {
-        const res = await fetch(`${API_BASE_URL}/request-token`, {
+        const res = await fetch(`${AUTH_API_URL}/request-token`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email, password}),
@@ -42,7 +33,7 @@ export const AuthProvider = ({children}) => {
         localStorage.setItem("customerId", data.customerId);
         localStorage.setItem("userEmail", email);
 
-        const userRes = await fetch(`${API_BASE_URL}/users/${data.customerId}`, {
+        const userRes = await fetch(`${AUTH_API_URL}/users/${data.customerId}`, {
             headers: {
                 Authorization: `Bearer ${data.token}`,
             }
@@ -68,3 +59,5 @@ export const AuthProvider = ({children}) => {
         </AuthContext.Provider>
     );
 };
+
+export const useAuth = () => useContext(AuthContext);
