@@ -1,5 +1,5 @@
 .login-form {
-    padding-top: 80px;
+    padding-top: 6rem;
     display: flex;
     flex-direction: column;
     align-items: center; /* centrerar allt horisontellt */
@@ -33,4 +33,12 @@
     color: #646cff;
     cursor: pointer;
     text-decoration: underline;
+}
+
+.register-form {
+    margin-bottom: 2rem;
+}
+
+.submit-button {
+    text-decoration: none;
 }

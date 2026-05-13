@@ -1,6 +1,8 @@
 import {useEffect, useState} from "react";
-import {useAuth} from "../context/useAuth.js";
+import {useAuth} from "../context/AuthContext.jsx";
 import ProductCard from "../components/ProductCard.jsx";
+import {PRODUCT_API_URL} from "../config/api.js";
+import "./LikedProducts.css"
 
 const LikedProducts = () => {
     const {token, user} = useAuth();
@@ -14,7 +16,7 @@ const LikedProducts = () => {
 
             try {
                 setLoading(true);
-                const res = await fetch(`http://localhost:8081/products/liked?email=${user.email}`, {
+                const res = await fetch(`${PRODUCT_API_URL}/products/liked?email=${user.email}`, {
                     headers: {Authorization: `Bearer ${token}`}
                 });
 
@@ -44,7 +46,7 @@ const LikedProducts = () => {
 
     return (
         <div className="liked-container">
-            <h2>Mina Favoriter ♥</h2>
+            <h2 className="liked-title">Mina Favoriter ♥</h2>
             {likedProducts.length === 0 ? (
                 <p>Du har inte gillat några produkter än.</p>
             ) : (
