@@ -1,8 +1,8 @@
-package se.jensen.alexandra.fakestoreuserservice.controller;
+package se.jensen.alexandra.fakestoreuserservice.controller.order;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.jensen.alexandra.fakestoreuserservice.dto.OrderResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.order.OrderResponseDTO;
 import se.jensen.alexandra.fakestoreuserservice.model.Order;
 import se.jensen.alexandra.fakestoreuserservice.service.OrderService;
 

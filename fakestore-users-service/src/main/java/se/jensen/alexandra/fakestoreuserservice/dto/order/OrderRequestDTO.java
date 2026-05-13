@@ -1,4 +1,4 @@
-package se.jensen.alexandra.fakestoreuserservice.dto;
+package se.jensen.alexandra.fakestoreuserservice.dto.order;
 
 import java.util.List;
 

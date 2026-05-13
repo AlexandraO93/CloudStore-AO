@@ -1,4 +1,4 @@
-package se.jensen.alexandra.fakestoreuserservice.controller;
+package se.jensen.alexandra.fakestoreuserservice.controller.security;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import se.jensen.alexandra.fakestoreuserservice.dto.LoginRequestDTO;
-import se.jensen.alexandra.fakestoreuserservice.dto.LoginResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.login.LoginRequestDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.login.LoginResponseDTO;
 import se.jensen.alexandra.fakestoreuserservice.security.MyUserDetails;
 import se.jensen.alexandra.fakestoreuserservice.service.TokenService;
 

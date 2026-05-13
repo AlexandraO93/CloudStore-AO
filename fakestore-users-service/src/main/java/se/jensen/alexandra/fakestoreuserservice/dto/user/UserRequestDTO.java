@@ -1,4 +1,4 @@
-package se.jensen.alexandra.fakestoreuserservice.dto;
+package se.jensen.alexandra.fakestoreuserservice.dto.user;
 
 public record UserRequestDTO(
         Long id,
@@ -6,6 +6,7 @@ public record UserRequestDTO(
         String lastName,
         String email,
         String password,
+        String currentPassword,
         String address,
         String phone
 ) {

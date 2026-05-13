@@ -1,4 +1,4 @@
-package se.jensen.alexandra.fakestoreuserservice.controller;
+package se.jensen.alexandra.fakestoreuserservice.controller.security;
 
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;

@@ -1,10 +1,14 @@
-package se.jensen.alexandra.fakestoreuserservice.controller;
+package se.jensen.alexandra.fakestoreuserservice.controller.user;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.jensen.alexandra.fakestoreuserservice.dto.*;
+import se.jensen.alexandra.fakestoreuserservice.dto.order.OrderRequestDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.order.OrderResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.user.UserRequestDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.user.UserResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.user.UserWithOrdersResponseDTO;
 import se.jensen.alexandra.fakestoreuserservice.service.OrderService;
 import se.jensen.alexandra.fakestoreuserservice.service.UserService;
 
