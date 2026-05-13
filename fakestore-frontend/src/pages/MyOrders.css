@@ -1,0 +1,94 @@
+.orders-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.orders-content {
+    display: grid;
+    grid-template-columns: repeat(1, auto);
+    gap: 1rem;
+    padding: clamp(20px, 4vh, 50px) 1rem 1rem 1rem;
+    width: 100%;
+}
+
+.order-image {
+    width: 30px;
+    height: 30px;
+    grid-column: 1;
+}
+
+.order-card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.order-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.summary-text h3 {
+    margin: 0;
+    font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+.summary-text p {
+    margin: 0;
+    color: #666;
+    font-size: clamp(0.7rem, 1vw, 1.5rem);
+}
+
+.total-price {
+    font-weight: bold;
+    color: #333;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    background: #eee;
+}
+
+.order-details-expanded {
+    margin-top: 15px;
+    animation: fadeIn 0.3s ease;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.mini-prod-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.item-title, .item-meta {
+    font-size: clamp(0.8rem, 1vw, 1.5rem);
+    text-align: left;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

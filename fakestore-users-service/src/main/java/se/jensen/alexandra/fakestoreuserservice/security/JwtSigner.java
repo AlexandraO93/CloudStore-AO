@@ -48,7 +48,7 @@ public class JwtSigner {
                 .subject(subject)
                 .claim("scope", scope)
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plusSeconds(300))) // 5 minutes
+                .expiration(Date.from(now.plusSeconds(3600))) // 1 hour
                 .signWith(privateKey, Jwts.SIG.RS256)
                 .compact();
     }
