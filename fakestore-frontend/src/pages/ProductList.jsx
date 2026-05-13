@@ -1,7 +1,8 @@
 import {useEffect, useState} from "react";
-import {useAuth} from "../context/useAuth.js";
+import {useAuth} from "../context/AuthContext.jsx";
 import ProductCard from "../components/ProductCard.jsx";
 import "./ProductList.css";
+import {PRODUCT_API_URL} from "../config/api.js";
 
 const ProductList = () => {
     const {token, user} = useAuth();
@@ -13,7 +14,7 @@ const ProductList = () => {
 
         try {
             setLoading(true);
-            const res = await fetch(`http://localhost:8081/products/fetch`, {
+            const res = await fetch(`${PRODUCT_API_URL}/products/fetch`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -26,6 +27,7 @@ const ProductList = () => {
             }
 
             const data = await res.json();
+            localStorage.setItem("all_products", JSON.stringify(data));
             const productsWithLikeStatus = data.map(p => ({
                 ...p,
                 likedByMe: p.likedByEmails?.includes(user?.email)
@@ -53,17 +55,15 @@ const ProductList = () => {
 
     return (
         <div>
-            <h2>Våra Produkter</h2>
+            <h2 className="product-card-title">Våra Produkter</h2>
             {loading && <p>Laddar...</p>}
             <div className="product-grid">
                 {products.map(product => (
-                    <div className="product-card">
-                        <ProductCard
-                            key={product.id}
-                            product={product}
-                            isLiked={product.likedByMe}
-                        />
-                    </div>
+                    <ProductCard
+                        key={product.id}
+                        product={product}
+                        isLiked={product.likedByMe}
+                    />
                 ))}
             </div>
         </div>

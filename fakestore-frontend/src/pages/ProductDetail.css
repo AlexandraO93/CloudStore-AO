@@ -50,20 +50,7 @@
     margin-bottom: 1rem;
 }
 
-.buy-button-big {
-    margin-left: 0.4rem;
-    background-color: #756b64;
-    color: #ffffff;
-    border-color: #5f5954;
-    border-radius: 8px;
-    text-decoration: none;
-    padding: 0.3rem 0.5rem;
-    font-size: clamp(1rem, 3vw, 1.8rem);
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-}
 
-
-.product-card:hover {
-    background: #9b8a82;
-    transition: 0.2s background ease;
+.add-to-cart-button {
+    margin-left: 4rem;
 }

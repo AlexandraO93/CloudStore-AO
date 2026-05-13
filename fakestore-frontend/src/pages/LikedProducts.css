@@ -1,0 +1,13 @@
+.liked-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.liked-title {
+    padding: 5rem 0 0 0;
+    font-size: clamp(1.8rem, 2vw, 1.5rem);
+    color: #292727;
+    margin-bottom: 0;
+}

@@ -1,14 +1,9 @@
-/* ProductList.css */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    margin: 1.5rem;
     gap: 1rem;
-    justify-content: space-between;
-    padding-top: clamp(40px, 8vh, 70px);
+    padding: clamp(20px, 4vh, 50px) 1rem 1rem 1rem;
 }
-
 
 .app-wrapper {
     display: flex;
@@ -20,4 +15,10 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+}
+
+.product-card-title {
+    padding: 5rem 0 0 0;
+    font-size: clamp(1.8rem, 2vw, 1.5rem);
+    color: #292727;
 }
