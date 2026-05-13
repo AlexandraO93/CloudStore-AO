@@ -2,10 +2,10 @@ package se.jensen.alexandra.fakestoreuserservice.service;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import se.jensen.alexandra.fakestoreuserservice.dto.OrderResponseDTO;
-import se.jensen.alexandra.fakestoreuserservice.dto.UserRequestDTO;
-import se.jensen.alexandra.fakestoreuserservice.dto.UserResponseDTO;
-import se.jensen.alexandra.fakestoreuserservice.dto.UserWithOrdersResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.order.OrderResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.user.UserRequestDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.user.UserResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.user.UserWithOrdersResponseDTO;
 import se.jensen.alexandra.fakestoreuserservice.mapper.OrderMapper;
 import se.jensen.alexandra.fakestoreuserservice.mapper.UserMapper;
 import se.jensen.alexandra.fakestoreuserservice.model.Order;
@@ -47,11 +47,25 @@ public class UserService {
     public UserResponseDTO updateUser(UserRequestDTO dto, Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
+
+        String existingHash = user.getPassword();
+
         userMapper.fromDto(user, dto);
 
         if (dto.password() != null && !dto.password().isEmpty()) {
+            if (dto.currentPassword() == null || dto.currentPassword().isEmpty()) {
+                throw new IllegalArgumentException("Du måste ange ditt nuvarande lösenord...");
+            }
+
+            if (!passwordEncoder.matches(dto.currentPassword(), existingHash)) {
+                throw new IllegalArgumentException("Det nuvarande lösenordet är felaktigt.");
+            }
+
             user.setPassword(passwordEncoder.encode(dto.password()));
+        } else {
+            user.setPassword(existingHash);
         }
+
         User updatedUser = userRepository.save(user);
         return userMapper.toDto(updatedUser);
     }
@@ -84,5 +98,4 @@ public class UserService {
                 orderDtos
         );
     }
-
 }

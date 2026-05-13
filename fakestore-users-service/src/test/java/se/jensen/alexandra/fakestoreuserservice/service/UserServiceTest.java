@@ -7,8 +7,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-import se.jensen.alexandra.fakestoreuserservice.dto.UserRequestDTO;
-import se.jensen.alexandra.fakestoreuserservice.dto.UserResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.user.UserRequestDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.user.UserResponseDTO;
 import se.jensen.alexandra.fakestoreuserservice.model.User;
 import se.jensen.alexandra.fakestoreuserservice.repository.OrderRepository;
 import se.jensen.alexandra.fakestoreuserservice.repository.UserRepository;
@@ -41,7 +41,7 @@ public class UserServiceTest {
     @Test
     public void addUser_shouldSaveUserWithHashedPassword() {
         // Arrange
-        UserRequestDTO dto = new UserRequestDTO(1L, "Test", "Test", "test@mail.com", "password123", "adress", "0701234567");
+        UserRequestDTO dto = new UserRequestDTO(1L, "Test", "Test", "test@mail.com", "password123", "password123", "adress", "0701234567");
 
         // Act
         UserResponseDTO result = userService.addUser(dto);
@@ -68,7 +68,7 @@ public class UserServiceTest {
         existingUser.setPhone("0701234567");
         userRepository.save(existingUser);
 
-        UserRequestDTO dto = new UserRequestDTO(1L, "Test", "Test", "test@mail.com", "password123", "Testvägen 1", "0701234567");
+        UserRequestDTO dto = new UserRequestDTO(1L, "Test", "Test", "test@mail.com", "password123", "password123", "Testvägen 1", "0701234567");
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> userService.addUser(dto));
@@ -135,7 +135,7 @@ public class UserServiceTest {
         user.setPhone("0701234567");
         User saved = userRepository.save(user);
 
-        UserRequestDTO updateDto = new UserRequestDTO(saved.getId(), "Test", "Test", "update@mail.com", "password123", "Nya Vägen 2", "0701234567");
+        UserRequestDTO updateDto = new UserRequestDTO(saved.getId(), "Test", "Test", "update@mail.com", "password123", "password123", "Nya Vägen 2", "0701234567");
 
         // Act
         userService.updateUser(updateDto, saved.getId());

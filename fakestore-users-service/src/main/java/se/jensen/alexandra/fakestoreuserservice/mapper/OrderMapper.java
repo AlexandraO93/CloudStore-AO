@@ -1,8 +1,8 @@
 package se.jensen.alexandra.fakestoreuserservice.mapper;
 
 import org.springframework.stereotype.Component;
-import se.jensen.alexandra.fakestoreuserservice.dto.OrderItemResponseDTO;
-import se.jensen.alexandra.fakestoreuserservice.dto.OrderResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.order.OrderItemResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.order.OrderResponseDTO;
 import se.jensen.alexandra.fakestoreuserservice.model.Order;
 import se.jensen.alexandra.fakestoreuserservice.model.OrderItem;
 

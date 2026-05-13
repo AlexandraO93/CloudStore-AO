@@ -7,12 +7,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import se.jensen.alexandra.fakestoreuserservice.dto.OrderRequestDTO;
-import se.jensen.alexandra.fakestoreuserservice.dto.OrderResponseDTO;
-import se.jensen.alexandra.fakestoreuserservice.dto.ProductDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.order.OrderRequestDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.order.OrderResponseDTO;
+import se.jensen.alexandra.fakestoreuserservice.dto.order.ProductDTO;
 import se.jensen.alexandra.fakestoreuserservice.mapper.OrderMapper;
 import se.jensen.alexandra.fakestoreuserservice.model.Order;
 import se.jensen.alexandra.fakestoreuserservice.model.OrderItem;
@@ -29,7 +30,7 @@ public class OrderService {
     private final RestTemplate restTemplate;
     private final OrderMapper mapper;
 
-    @Value("${product.service.url}")
+    @Value("${product.service.url}") //TODO url måste bytas ut mot riktig url när den är klar och finns i docker/aws
     private String productUrl;
 
     public OrderService(OrderRepository orderRepository, UserRepository userRepository, RestTemplate restTemplate, OrderMapper mapper) {
@@ -46,7 +47,7 @@ public class OrderService {
         Order order = new Order();
         order.setUser(user);
 
-        List<OrderItem> items = requestDTO.items().stream().map(itemDTO -> { //url måste bytas ut mot riktig url när den är klar och finns i docker/aws
+        List<OrderItem> items = requestDTO.items().stream().map(itemDTO -> {
             String productServiceURL = productUrl + itemDTO.productId();
 
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -61,25 +62,29 @@ public class OrderService {
 
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
-            ResponseEntity<ProductDTO> response = restTemplate.exchange(
-                    productServiceURL,
-                    HttpMethod.GET,
-                    entity,
-                    ProductDTO.class
-            );
+            try {
+                ResponseEntity<ProductDTO> response = restTemplate.exchange(
+                        productServiceURL,
+                        HttpMethod.GET,
+                        entity,
+                        ProductDTO.class
+                );
 
-            ProductDTO product = response.getBody();
+                ProductDTO product = response.getBody();
 
-            if (product == null) {
-                throw new IllegalArgumentException("Product not found with id: " + itemDTO.productId());
+                if (product == null) {
+                    throw new IllegalArgumentException("Product not found with id: " + itemDTO.productId());
+                }
+
+                OrderItem item = new OrderItem();
+                item.setProductId(itemDTO.productId());
+                item.setQuantity(itemDTO.quantity());
+                item.setOrder(order);
+                item.setPrice(product.price());
+                return item;
+            } catch (HttpClientErrorException.NotFound e) {
+                throw new IllegalArgumentException("Produkten med ID " + itemDTO.productId() + " existerar inte i produkttjänsten.");
             }
-
-            OrderItem item = new OrderItem();
-            item.setProductId(itemDTO.productId());
-            item.setQuantity(itemDTO.quantity());
-            item.setOrder(order);
-            item.setPrice(product.price());
-            return item;
         }).toList();
 
         order.setOrderItems(items);
