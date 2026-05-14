@@ -100,7 +100,6 @@ jobs:
             # Startar containern
             docker run -d \
               --name ${{ matrix.container_name }} \
-              --network cloudstore-net \
               -p ${{ matrix.port == 8081 && '8081:8080' || format('{0}:{0}', matrix.port) }} \
               --restart always \
               -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL }}" \
