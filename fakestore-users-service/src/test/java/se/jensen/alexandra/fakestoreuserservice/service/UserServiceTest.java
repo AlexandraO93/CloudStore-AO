@@ -130,12 +130,19 @@ public class UserServiceTest {
         user.setFirstName("Test");
         user.setLastName("Test");
         user.setEmail("update@mail.com");
-        user.setPassword("password123");
+        user.setPassword(passwordEncoder.encode("password123"));
         user.setAddress("Gamla Gatan 1");
         user.setPhone("0701234567");
         User saved = userRepository.save(user);
 
-        UserRequestDTO updateDto = new UserRequestDTO(saved.getId(), "Test", "Test", "update@mail.com", "password123", "password123", "Nya Vägen 2", "0701234567");
+        UserRequestDTO updateDto = new UserRequestDTO(saved.getId(),
+                "Test",
+                "Test",
+                "update@mail.com",
+                "password1234",
+                "password123",
+                "Nya Vägen 2",
+                "0701234567");
 
         // Act
         userService.updateUser(updateDto, saved.getId());
@@ -143,5 +150,36 @@ public class UserServiceTest {
         // Assert
         User updatedUser = userRepository.findById(saved.getId()).orElseThrow();
         assertEquals("Nya Vägen 2", updatedUser.getAddress());
+    }
+
+    // 7 Testar att exception kastas vid fel nuvarande lösenord
+    @Test
+    public void updateUser_withWrongCurrentPassword_shouldThrowException() {
+        // Arrange
+        User user = new User();
+        user.setFirstName("Test");
+        user.setLastName("Test");
+        user.setEmail("test@mail.com");
+        user.setPassword(passwordEncoder.encode("password123"));
+        user.setAddress("Testvägen 1");
+        user.setPhone("0701234567");
+        User saved = userRepository.save(user);
+
+        // Försök uppdatera med FEL nuvarande lösenord
+        UserRequestDTO updateDto = new UserRequestDTO(
+                saved.getId(),
+                "Test",
+                "Test",
+                "test@mail.com",
+                "newPass",
+                "WRONG_PASSWORD",
+                "Testvägen 1",
+                "0701234567"
+        );
+
+        // Act & Assert
+        assertThrows(IllegalArgumentException.class, () ->
+                userService.updateUser(updateDto, saved.getId())
+        );
     }
 }
