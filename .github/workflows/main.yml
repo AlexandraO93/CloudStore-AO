@@ -58,6 +58,9 @@ jobs:
           context: ./fakestore-frontend
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/cloudstore-frontend:latest
+          build-args: |
+            VITE_AUTH_API_URL=${{ secrets.VITE_AUTH_API_URL }}
+            VITE_PRODUCT_API_URL=${{ secrets.VITE_PRODUCT_API_URL }}
 
   deploy:
     needs: [build-and-test-backend, build-frontend] 
