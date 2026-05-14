@@ -30,7 +30,7 @@ public class OrderService {
     private final RestTemplate restTemplate;
     private final OrderMapper mapper;
 
-    @Value("${product.service.url}") //TODO url måste bytas ut mot riktig url när den är klar och finns i docker/aws
+    @Value("${product.service.url}")
     private String productUrl;
 
     public OrderService(OrderRepository orderRepository, UserRepository userRepository, RestTemplate restTemplate, OrderMapper mapper) {
