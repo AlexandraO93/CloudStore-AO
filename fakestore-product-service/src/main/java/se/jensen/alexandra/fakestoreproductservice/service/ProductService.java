@@ -33,20 +33,19 @@ public class ProductService {
 
         if (response != null) {
             for (Product incomingProduct : response) {
-                repository.findByTitle(incomingProduct.getTitle())
-                        .ifPresentOrElse(
-                                existingProduct -> {
-                                    existingProduct.setPrice(incomingProduct.getPrice());
-                                    existingProduct.setDescription(incomingProduct.getDescription());
-                                    existingProduct.setCategory(incomingProduct.getCategory());
-                                    existingProduct.setImage(incomingProduct.getImage());
-                                    repository.save(existingProduct);
-                                },
-                                () -> {
-                                    incomingProduct.setId(null);
-                                    repository.save(incomingProduct);
-                                }
-                        );
+                List<Product> existingProducts = repository.findByTitle(incomingProduct.getTitle());
+
+                if (!existingProducts.isEmpty()) {
+                    Product existingProduct = existingProducts.get(0);
+                    existingProduct.setPrice(incomingProduct.getPrice());
+                    existingProduct.setDescription(incomingProduct.getDescription());
+                    existingProduct.setCategory(incomingProduct.getCategory());
+                    existingProduct.setImage(incomingProduct.getImage());
+                    repository.save(existingProduct);
+                } else {
+                    incomingProduct.setId(null);
+                    repository.save(incomingProduct);
+                }
             }
         }
         return repository.findAll();
