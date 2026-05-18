@@ -100,11 +100,13 @@ jobs:
             # Startar containern
             docker run -d \
               --name ${{ matrix.container_name }} \
-              -p ${{ matrix.port }}:${{ matrix.port }} \
+              -p ${{ matrix.port == 80 && '80:80' || format('{0}:8080', matrix.port) }} \
               --restart always \
+              -e SERVER_PORT=8080 \
               -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL }}" \
               -e SPRING_DATASOURCE_USERNAME="${{ secrets.DB_USERNAME }}" \
               -e SPRING_DATASOURCE_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+              -e FAKESTORE_API_URL="${{ secrets.EXTERNAL_API_URL }}" \
               -e EXTERNAL_API_URL="${{ secrets.EXTERNAL_API_URL }}" \
               -e PRODUCT_SERVICE_URL="${{ secrets.PRODUCT_SERVICE_URL }}" \
               -e JWT_ISSUER="${{ secrets.JWT_ISSUER }}" \
