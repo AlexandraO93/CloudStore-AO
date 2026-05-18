@@ -14,7 +14,7 @@ const ProductList = () => {
 
         try {
             setLoading(true);
-            const res = await fetch(`${PRODUCT_API_URL}/products/fetch`, {
+            const res = await fetch(`${PRODUCT_API_URL}/fetch`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,

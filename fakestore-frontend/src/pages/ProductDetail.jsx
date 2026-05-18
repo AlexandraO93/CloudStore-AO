@@ -17,7 +17,7 @@ const ProductDetail = () => {
 
             try {
                 setLoading(true);
-                const res = await fetch(`${PRODUCT_API_URL}/products/${id}`, {
+                const res = await fetch(`${PRODUCT_API_URL}/${id}`, {
                     headers: {"Authorization": `Bearer ${token}`}
                 });
                 const data = await res.json();

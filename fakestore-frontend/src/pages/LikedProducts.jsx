@@ -16,7 +16,7 @@ const LikedProducts = () => {
 
             try {
                 setLoading(true);
-                const res = await fetch(`${PRODUCT_API_URL}/products/liked?email=${user.email}`, {
+                const res = await fetch(`${PRODUCT_API_URL}/liked?email=${user.email}`, {
                     headers: {Authorization: `Bearer ${token}`}
                 });
 

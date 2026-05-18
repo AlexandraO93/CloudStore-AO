@@ -26,7 +26,7 @@ export default function ProductCard({
         if (!token) return;
 
         try {
-            const res = await fetch(`${PRODUCT_API_URL}/products/${product.id}/like`, {
+            const res = await fetch(`${PRODUCT_API_URL}/${product.id}/like`, {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token}`,
