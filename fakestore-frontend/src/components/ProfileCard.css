@@ -26,6 +26,7 @@
     text-align: left;
     margin: 0 0 0.5rem 0;
     grid-column: 1 / -1;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
 }
 
 .profile-name-section {
@@ -48,7 +49,7 @@
 
 .profile-title {
     margin: 0;
-    font-size: clamp(0.8rem, 2vw, 1.5rem);
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
     width: 100%;
     font-weight: 500;
     text-align: left;
@@ -56,7 +57,7 @@
 
 .profile-input {
     margin: 0;
-    font-size: clamp(0.8rem, 2vw, 1.5rem);
+    font-size: clamp(0.8rem, 2vw, 1rem);
     text-align: left;
 }
 
@@ -73,6 +74,9 @@
     padding: 0.7rem 2rem;
     margin: 1rem 2rem 0 2rem;
     grid-column: 1 / -1;
+    font-size: clamp(0.7rem, 2vw, 1rem);
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 .my-orders-button {
@@ -126,4 +130,10 @@
     background: #5e554e;
     color: white;
     border-radius: 8px;
+}
+
+@media (min-width: 768px) {
+    .profile-card-content {
+        width: 50%;
+    }
 }

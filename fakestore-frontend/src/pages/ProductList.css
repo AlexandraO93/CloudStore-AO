@@ -1,8 +1,10 @@
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-    padding: clamp(20px, 4vh, 50px) 1rem 1rem 1rem;
+    grid-template-columns: 1fr;
+    gap: 1rem 0.5rem;
+    width: 100%;
+    padding: clamp(20px, 3vh, 50px) 0.7rem 1rem 0.7rem;
+    box-sizing: border-box;
 }
 
 .app-wrapper {
@@ -19,6 +21,19 @@
 
 .product-card-title {
     padding: 5rem 0 0 0;
-    font-size: clamp(1.8rem, 2vw, 1.5rem);
+    font-size: clamp(1.8rem, 2vw, 2.5rem);
     color: #292727;
+}
+
+@media (min-width: 400px) {
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        max-width: 1200px;
+    }
 }

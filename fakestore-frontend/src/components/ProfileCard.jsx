@@ -81,6 +81,10 @@ export default function ProfileCard() {
         <div className="profile-card-container">
             <h2 className="product-card-title">Min Profil</h2>
 
+            <button className="my-orders-button" onClick={() => navigate(`/users/${customerId}/orders-by-user`)}>Mina
+                beställningar
+            </button>
+
             <div className="profile-card-content">
                 <h4 className="product-card-subtitle">Personuppgifter</h4>
                 <div className="profile-name-section">
@@ -133,10 +137,6 @@ export default function ProfileCard() {
                 </button>
 
             </div>
-
-            <button className="my-orders-button" onClick={() => navigate(`/users/${customerId}/orders-by-user`)}>Mina
-                beställningar
-            </button>
 
             {isEditingProfile && (
                 <div className="modal-overlay">

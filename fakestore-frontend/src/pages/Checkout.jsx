@@ -170,19 +170,21 @@ export default function Checkout() {
                     <div className="order-summary-section">
                         <hr/>
                         <h3>Totalt att betala: {totalPrice.toFixed(2)} kr</h3>
-                        <button
-                            className="abort-buy-button"
-                            onClick={() => navigate("/products")}
-                        >
-                            Fortsätt handla
-                        </button>
-                        <button
-                            className="place-order-button"
-                            onClick={handlePlaceOrder}
-                            disabled={cartItems.length === 0 || isProcessing}
-                        >
-                            {isProcessing ? "BEARBETAR..." : "BETALA OCH SLUTFÖR KÖP"}
-                        </button>
+                        <div className="order-summary-buttons">
+                            <button
+                                className="abort-buy-button"
+                                onClick={() => navigate("/products")}
+                            >
+                                Fortsätt handla
+                            </button>
+                            <button
+                                className="place-order-button"
+                                onClick={handlePlaceOrder}
+                                disabled={cartItems.length === 0 || isProcessing}
+                            >
+                                {isProcessing ? "BEARBETAR..." : "BETALA OCH SLUTFÖR KÖP"}
+                            </button>
+                        </div>
 
                     </div>
                 </div>
