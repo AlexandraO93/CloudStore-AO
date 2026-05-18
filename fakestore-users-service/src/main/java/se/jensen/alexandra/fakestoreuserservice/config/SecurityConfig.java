@@ -9,15 +9,24 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import se.jensen.alexandra.fakestoreuserservice.security.JwtSigner;
 
 import java.util.List;
 
 @Configuration
 public class SecurityConfig {
+
+    private final JwtSigner jwtSigner;
+
+    public SecurityConfig(JwtSigner jwtSigner) {
+        this.jwtSigner = jwtSigner;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,12 +53,14 @@ public class SecurityConfig {
                         //Alla andra enpoints kräver autentisering
                         .anyRequest().authenticated()
                 )
-
-                //Tjänsten kräver giltig JWT
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {
-                }));
-
+                //Tjänsten kräver giltig JWT, använder den tvättade nyckeln från JwtSigner
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())));
         return http.build();
+    }
+
+    @Bean
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey(jwtSigner.getPublicKey()).build();
     }
 
     @Bean
