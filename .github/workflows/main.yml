@@ -105,6 +105,7 @@ jobs:
               -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL }}" \
               -e SPRING_DATASOURCE_USERNAME="${{ secrets.DB_USERNAME }}" \
               -e SPRING_DATASOURCE_PASSWORD="${{ secrets.DB_PASSWORD }}" \
+              -e EXTERNAL_API_URL="${{ secrets.EXTERNAL_API_URL }}" \
               -e PRODUCT_SERVICE_URL="${{ secrets.PRODUCT_SERVICE_URL }}" \
               -e JWT_ISSUER="${{ secrets.JWT_ISSUER }}" \
               -e JWT_PRIVATE_KEY="${{ secrets.JWT_PRIVATE_KEY }}" \
