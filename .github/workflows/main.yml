@@ -112,5 +112,6 @@ jobs:
               -e JWT_ISSUER="${{ secrets.JWT_ISSUER }}" \
               -e JWT_PRIVATE_KEY="${{ secrets.JWT_PRIVATE_KEY }}" \
               -e JWT_PUBLIC_KEY="${{ secrets.JWT_PUBLIC_KEY }}" \
+              -e SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI="${{ secrets.JWKS_URL }}" \
               -e JWKS_URL="${{ secrets.JWKS_URL }}" \
               ${{ secrets.DOCKER_USERNAME }}/${{ matrix.service == 'cloudstore-frontend' && 'cloudstore-frontend' || matrix.service }}:latest
