@@ -22,6 +22,11 @@ export default function MyOrders() {
                 });
                 if (res.ok) {
                     const result = await res.json();
+
+                    if (result.orders) {
+                        result.orders.sort((a, b) => b.orderId - a.orderId);
+                    }
+
                     setOrderData(result);
                 }
             } catch (err) {
@@ -44,9 +49,9 @@ export default function MyOrders() {
 
     return (
         <div className="orders-container">
-            <h2>Beställningar för {orderData.user.firstName} {orderData.user.lastName}</h2>
+            <h2>Beställningar för {orderData.user.firstName}</h2>
 
-            {orderData.orders.length === 0 ? (
+            {!orderData.orders || orderData.orders.length === 0 ? (
                 <p>Du har inte gjort några beställningar än.</p>
             ) : (
                 <div className="orders-content">

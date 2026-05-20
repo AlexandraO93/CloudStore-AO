@@ -5,6 +5,17 @@
     text-align: center;
 }
 
+.orders-container h2 {
+    font-size: clamp(1.8rem, 2vw, 2.5rem);
+    color: #292727;
+    padding: 5rem 0 0 0;
+}
+
+.orders-container p {
+    font-size: clamp(1rem, 1vw, 2rem);
+    margin-top: 1rem;
+}
+
 .orders-content {
     display: grid;
     grid-template-columns: repeat(1, auto);
