@@ -14,6 +14,7 @@
 
 .shopping-cart-container .product-grid {
     justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 320px));
     width: 100%;
 }
 
@@ -71,7 +72,7 @@
 
     .shopping-cart-container .product-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 320px));
+        grid-template-columns: repeat(auto-fit, 280px);
         justify-content: center;
         width: 100%;
         margin: 0 auto;
@@ -89,5 +90,4 @@
         margin-bottom: 1.5rem;
         text-align: center;
     }
-
 }

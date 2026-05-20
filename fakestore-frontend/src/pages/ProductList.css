@@ -27,13 +27,7 @@
 
 @media (min-width: 400px) {
     .product-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (min-width: 768px) {
-    .product-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        max-width: 1200px;
+        grid-template-columns: repeat(auto-fit, 280px);
+        justify-content: center;
     }
 }

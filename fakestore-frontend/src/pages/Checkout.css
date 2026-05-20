@@ -106,7 +106,7 @@
     }
 
     .shopping-cart-products .product-grid {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 320px));
+        grid-template-columns: repeat(auto-fit, 280px);
         justify-content: center;
         width: 100%;
         max-width: 1000px;

@@ -157,14 +157,14 @@
 }
 
 .reload-cart {
-    width: 13px;
-    height: 13px;
+    width: clamp(13px, 1.5vw, 18px);
+    height: clamp(13px, 1.5vw, 18px);
     background-image: url('../assets/reload.svg');
 }
 
 .delete-from-cart-button {
-    width: 18px;
-    height: 18px;
+    width: clamp(18px, 1.5vw, 25px);
+    height: clamp(18px, 1.5vw, 25px);
     background-image: url('../assets/garbage-bin.png');
     margin-left: 0.5rem;
 }

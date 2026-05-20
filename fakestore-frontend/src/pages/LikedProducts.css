@@ -11,3 +11,8 @@
     color: #292727;
     margin-bottom: 0;
 }
+
+.liked-container p {
+    font-size: clamp(1rem, 1vw, 2rem);
+    margin-top: 1rem;
+}
