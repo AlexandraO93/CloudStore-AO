@@ -25,6 +25,46 @@
     color: #292727;
 }
 
+.filter-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1.5rem auto 0 auto;
+    padding: 0 1rem;
+    max-width: 1200px;
+}
+
+.filter-button {
+    background-color: #f5f2f0;
+    color: #534b46;
+    border: 1px solid #dcd6d2;
+    border-radius: 20px;
+    padding: 0.5rem 1.2rem;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.filter-button:hover {
+    background-color: #e8e2de;
+    border-color: #c8beba;
+}
+
+.filter-button.active {
+    background-color: #534b46;
+    color: white;
+    border-color: #534b46;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.no-products-text {
+    text-align: center;
+    color: #666;
+    margin-top: 2rem;
+    font-size: 1.1rem;
+}
+
 @media (min-width: 400px) {
     .product-grid {
         grid-template-columns: repeat(auto-fit, 280px);
