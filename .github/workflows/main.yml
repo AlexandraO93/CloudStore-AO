@@ -100,7 +100,8 @@ jobs:
             # Startar containern
             docker run -d \
               --name ${{ matrix.container_name }} \
-              -p ${{ matrix.port == 80 && '80:80' || format('{0}:8080', matrix.port) }} \
+              -p ${{ matrix.port == 80 && '80:80 -p 443:443' || format('{0}:8080', matrix.port) }} \
+              ${{ matrix.service == 'cloudstore-frontend' && '-v /etc/letsencrypt:/etc/letsencrypt:ro' || '' }} \
               --restart always \
               -e SERVER_PORT=8080 \
               -e SPRING_DATASOURCE_URL="${{ secrets.DB_URL }}" \
