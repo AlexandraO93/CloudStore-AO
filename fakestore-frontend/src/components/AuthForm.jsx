@@ -92,14 +92,14 @@ const AuthForm = () => {
                     />
                     <input
                         type="text"
-                        placeholder="Adress"
+                        placeholder="Adress (ex Storgatan 1, 12345 Stockholm)"
                         value={address}
                         onChange={e => setAddress(e.target.value)}
                         required
                     />
                     <input
                         type="tel"
-                        placeholder="Telefonnummer"
+                        placeholder="Telefonnummer (ex 0701234567)"
                         value={phone}
                         onChange={e => setPhone(e.target.value)}
                         required
