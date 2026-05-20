@@ -44,7 +44,9 @@ public class SecurityConfig {
 
         config.setAllowedOriginPatterns(List.of(
                 "http://localhost:*",
-                "http://13.61.35.20"
+                "http://13.61.35.20",
+                "https://cloudstore-ao.duckdns.org",
+                "http://cloudstore-ao.duckdns.org"
         ));
 
         config.setAllowedMethods(List.of(
