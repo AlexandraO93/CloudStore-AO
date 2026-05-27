@@ -1,5 +1,6 @@
 package se.jensen.alexandra.fakestoreuserservice.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -25,6 +26,11 @@ public class UserControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @BeforeEach
+    public void setUp() {
+        userRepository.deleteAll();
+    }
 
     // 1 Verifierar att man inte kan hämta användarlista utan att vara inloggad
     @Test
