@@ -28,7 +28,6 @@ export const AuthProvider = ({children}) => {
         setCustomerId(data.customerId);
         setUser({email: email});
 
-        // Persistera auth-data
         localStorage.setItem("token", data.token);
         localStorage.setItem("customerId", data.customerId);
         localStorage.setItem("userEmail", email);

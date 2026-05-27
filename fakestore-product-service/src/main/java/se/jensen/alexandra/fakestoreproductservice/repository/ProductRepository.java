@@ -12,6 +12,4 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByLikedByEmailsContaining(String email);
 
     List<Product> findByTitle(String title);
-
-    //Lägg eventuellt till för filtrering av kategori/sökord??
 }

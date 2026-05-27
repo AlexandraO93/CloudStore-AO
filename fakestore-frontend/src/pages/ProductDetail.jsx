@@ -6,7 +6,7 @@ import ProductCard from "../components/ProductCard.jsx";
 import {PRODUCT_API_URL} from "../config/api.js";
 
 const ProductDetail = () => {
-    const {id} = useParams(); // Hämtar ID:t från URL:en
+    const {id} = useParams();
     const {token} = useAuth();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(false);

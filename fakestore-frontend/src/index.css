@@ -24,8 +24,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    --header-height: 64px; /* fallback */
-    --footer-height: clamp(90px, 12vh, 130px); /* fallback */
+    --header-height: 64px;
+    --footer-height: clamp(90px, 12vh, 130px);
 
     @media (max-width: 1024px) {
         font-size: 16px;

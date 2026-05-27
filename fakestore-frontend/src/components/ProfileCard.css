@@ -136,4 +136,12 @@
     .profile-card-content {
         width: 50%;
     }
+
+    .product-card-subtitle, .profile-title, .edit-profile-button, .my-orders-button {
+        font-size: clamp(0.7rem, 1.3vw, 1rem);
+    }
+
+    .profile-input {
+        font-size: clamp(0.7rem, 1vw, 1rem);
+    }
 }
