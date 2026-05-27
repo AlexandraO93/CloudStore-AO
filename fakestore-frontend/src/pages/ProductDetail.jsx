@@ -39,6 +39,7 @@ const ProductDetail = () => {
             <ProductCard
                 product={product}
                 showQuantityControls={true}
+                showReadMore={false}
             />
 
             <div className="description-box">

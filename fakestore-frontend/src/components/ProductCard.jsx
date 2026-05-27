@@ -12,7 +12,8 @@ export default function ProductCard({
                                         showAddToCart = true,
                                         showReloadCart = false,
                                         showDeleteFromCart = false,
-                                        showCartInfo = false
+                                        showCartInfo = false,
+                                        showReadMore = true
                                     }) {
     const navigate = useNavigate();
     const {token, user} = useAuth();
@@ -92,8 +93,10 @@ export default function ProductCard({
 
             <div className="product-buttons">
                 <div>
-                    <button className="read-more-button" onClick={() => navigate(`/products/${product.id}`)}>Läs mer
-                    </button>
+                    {showReadMore && (
+                        <button className="read-more-button" onClick={() => navigate(`/products/${product.id}`)}>Läs mer
+                        </button>
+                    )}
                     <button className="like-button" onClick={handleLikeProduct}>
                         {isLiked ? '♥' : '♡'}
                     </button>

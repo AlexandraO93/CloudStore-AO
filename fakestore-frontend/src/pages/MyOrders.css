@@ -28,6 +28,7 @@
     width: 30px;
     height: 30px;
     grid-column: 1;
+    margin-left: 1rem;
 }
 
 .order-card {
@@ -60,6 +61,7 @@
 .total-price {
     font-weight: bold;
     color: #333;
+    font-size: clamp(0.7rem, 1vw, 1.5rem);
 }
 
 .status-badge {
@@ -67,6 +69,7 @@
     border-radius: 4px;
     font-size: 0.8rem;
     background: #eee;
+    margin-right: 1rem;
 }
 
 .order-details-expanded {
@@ -91,6 +94,21 @@
 .item-title, .item-meta {
     font-size: clamp(0.8rem, 1vw, 1.5rem);
     text-align: left;
+}
+
+@media (min-width: 768px) {
+    .summary-text h3, .total-price {
+        font-size: clamp(0.7rem, 1.3vw, 1rem);
+    }
+
+    .summary-info p {
+        font-size: clamp(0.7rem, 1vw, 1.5rem);
+    }
+
+    .order-image {
+        width: 40px;
+        height: 40px;
+    }
 }
 
 @keyframes fadeIn {
