@@ -176,7 +176,7 @@
     }
 
     .read-more-button, .buy-button, .product-category, .product-price {
-        font-size: clamp(0.9rem, 1vw, 1.5rem);
+        font-size: clamp(0.7rem, 0.8vw, 1.5rem);
     }
 }
 

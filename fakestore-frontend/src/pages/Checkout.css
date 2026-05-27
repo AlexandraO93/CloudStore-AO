@@ -86,11 +86,11 @@
 
 @media (min-width: 768px) {
     .checkout-input, .abort-buy-button, .place-order-button {
-        font-size: clamp(0.8rem, 2vw, 1.1rem);
+        font-size: clamp(0.8rem, 1vw, 1.1rem);
     }
 
     .checkout-information, .checkout-address {
-        font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+        font-size: clamp(1rem, 1.3vw, 1.5rem);
     }
 
     .checkout-input, .checkout-information, .checkout-address, .edit-button {

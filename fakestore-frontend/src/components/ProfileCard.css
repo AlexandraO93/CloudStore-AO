@@ -134,7 +134,7 @@
 
 @media (min-width: 768px) {
     .profile-card-content {
-        width: 50%;
+        width: 30%;
     }
 
     .product-card-subtitle, .profile-title, .edit-profile-button, .my-orders-button {
