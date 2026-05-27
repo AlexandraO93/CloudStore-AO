@@ -41,7 +41,7 @@ public class UserControllerTest {
         User user = new User();
         user.setFirstName("Test");
         user.setLastName("Test");
-        user.setEmail("test@mail.com");
+        user.setEmail("junittest@mail.com");
         user.setPassword("password123");
         user.setAddress("Testvägen 1");
         user.setPhone("0701234567");
@@ -52,6 +52,6 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()) // Verifierar 200 OK
                 .andExpect(jsonPath("$.firstName").value("Test")) // Verifierar JSON-innehåll
-                .andExpect(jsonPath("$.email").value("test@mail.com"));
+                .andExpect(jsonPath("$.email").value("junittest@mail.com"));
     }
 }

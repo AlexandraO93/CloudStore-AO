@@ -41,13 +41,13 @@ public class UserServiceTest {
     @Test
     public void addUser_shouldSaveUserWithHashedPassword() {
         // Arrange
-        UserRequestDTO dto = new UserRequestDTO(1L, "Test", "Test", "test@mail.com", "password123", "password123", "adress", "0701234567");
+        UserRequestDTO dto = new UserRequestDTO(1L, "Test", "Test", "junittest@mail.com", "password123", "password123", "adress", "0701234567");
 
         // Act
         UserResponseDTO result = userService.addUser(dto);
 
         // Assert
-        assertEquals("test@mail.com", result.email());
+        assertEquals("junittest@mail.com", result.email());
         User savedUser = userRepository.findById(result.id()).orElseThrow();
 
         // Verifiera att lösenordet är hashat
@@ -62,13 +62,13 @@ public class UserServiceTest {
         User existingUser = new User();
         existingUser.setFirstName("Test");
         existingUser.setLastName("Test");
-        existingUser.setEmail("test@mail.com");
+        existingUser.setEmail("junittest@mail.com");
         existingUser.setPassword("password123");
         existingUser.setAddress("Testvägen 1");
         existingUser.setPhone("0701234567");
         userRepository.save(existingUser);
 
-        UserRequestDTO dto = new UserRequestDTO(1L, "Test", "Test", "test@mail.com", "password123", "password123", "Testvägen 1", "0701234567");
+        UserRequestDTO dto = new UserRequestDTO(1L, "Test", "Test", "junittest@mail.com", "password123", "password123", "Testvägen 1", "0701234567");
 
         // Act & Assert
         assertThrows(IllegalArgumentException.class, () -> userService.addUser(dto));
@@ -88,7 +88,7 @@ public class UserServiceTest {
         User user = new User();
         user.setFirstName("Test");
         user.setLastName("Test");
-        user.setEmail("test@mail.com");
+        user.setEmail("junittest@mail.com");
         user.setPassword("password123");
         user.setAddress("Testvägen 1");
         user.setPhone("0701234567");
@@ -99,7 +99,7 @@ public class UserServiceTest {
 
         // Assert
         assertEquals("Test", result.firstName());
-        assertEquals("test@mail.com", result.email());
+        assertEquals("junittest@mail.com", result.email());
     }
 
     // 5 Testar att det funkar att ta bort en användare
@@ -109,7 +109,7 @@ public class UserServiceTest {
         User user = new User();
         user.setFirstName("Test");
         user.setLastName("Test");
-        user.setEmail("test@mail.com");
+        user.setEmail("junittest@mail.com");
         user.setPassword("password123");
         user.setAddress("Testvägen 1");
         user.setPhone("0701234567");
@@ -159,7 +159,7 @@ public class UserServiceTest {
         User user = new User();
         user.setFirstName("Test");
         user.setLastName("Test");
-        user.setEmail("test@mail.com");
+        user.setEmail("junittest@mail.com");
         user.setPassword(passwordEncoder.encode("password123"));
         user.setAddress("Testvägen 1");
         user.setPhone("0701234567");
@@ -170,7 +170,7 @@ public class UserServiceTest {
                 saved.getId(),
                 "Test",
                 "Test",
-                "test@mail.com",
+                "junittest@mail.com",
                 "newPass",
                 "WRONG_PASSWORD",
                 "Testvägen 1",
