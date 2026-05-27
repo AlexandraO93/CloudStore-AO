@@ -22,6 +22,9 @@
     gap: 1rem;
     padding: clamp(20px, 4vh, 50px) 1rem 1rem 1rem;
     width: 100%;
+    max-width: 80%;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .order-image {
@@ -38,6 +41,8 @@
     padding: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .order-summary {
@@ -106,18 +111,14 @@
     }
 
     .order-image {
-        width: 40px;
-        height: 40px;
-    }
-
-    .orders-container .orders-card {
-        max-width: 500px;
+        width: 50px;
+        height: 50px;
     }
 }
 
 @media (min-width: 1000px) {
-    .orders-container .orders-card {
-        max-width: 750px;
+    .orders-content {
+        max-width: 70%;
     }
 }
 

@@ -175,8 +175,12 @@
         font-size: clamp(1rem, 1vw, 1.5rem);
     }
 
-    .read-more-button, .buy-button, .product-category, .product-price, .like-button {
-        font-size: clamp(0.7rem, 0.8vw, 1.5rem);
+    .read-more-button, .buy-button, .product-category, .product-price {
+        font-size: clamp(0.7rem, 0.8vw, 1.3rem);
+    }
+
+    .like-button {
+        font-size: clamp(1rem, 1vw, 1.5rem);
     }
 }
 
