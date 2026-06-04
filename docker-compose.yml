@@ -1,4 +1,23 @@
 services:
+  # Lokal Databas för testmiljö
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DB_PASSWORD}
+      MYSQL_DATABASE: fakestore_db
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - cloudstore-net
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_DB_PASSWORD}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   # Users Service
   users-service:
     build:
@@ -8,14 +27,19 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=${DB_URL}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - SPRING_PROFILES_ACTIVE=dev
+      - MYSQL_DB_URL=${MYSQL_DB_URL}
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+      - MYSQL_DB_USERNAME=${MYSQL_DB_USERNAME}
+      - MYSQL_DB_PASSWORD=${MYSQL_DB_PASSWORD}
+      - SPRING_JPA_DATABASE_PLATFORM=${SPRING_JPA_DATABASE_PLATFORM}
       - PRODUCT_SERVICE_URL=${PRODUCT_SERVICE_URL}
       - JWT_ISSUER=${JWT_ISSUER}
       - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
       - JWT_PUBLIC_KEY=${JWT_PUBLIC_KEY}
+    depends_on:
+      mysql-db:
+        condition: service_healthy
     networks:
       - cloudstore-net
 
@@ -28,12 +52,17 @@ services:
     ports:
       - "8081:8081"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
-      - SPRING_DATASOURCE_URL=${DB_URL}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - JWKS_URL=${JWKS_URL}
+      - SPRING_PROFILES_ACTIVE=dev
+      - MYSQL_DB_URL=${MYSQL_DB_URL}
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=${SPRING_DATASOURCE_DRIVER_CLASS_NAME}
+      - MYSQL_DB_USERNAME=${MYSQL_DB_USERNAME}
+      - MYSQL_DB_PASSWORD=${MYSQL_DB_PASSWORD}
+      - SPRING_JPA_DATABASE_PLATFORM=${SPRING_JPA_DATABASE_PLATFORM}
+      - DEV_JWKS_URL=${DEV_JWKS_URL}
       - EXTERNAL_API_URL=${EXTERNAL_API_URL}
+    depends_on:
+      mysql-db:
+        condition: service_healthy
     networks:
       - cloudstore-net
 
@@ -41,14 +70,22 @@ services:
     build:
       context: ./fakestore-frontend
       dockerfile: Dockerfile
+      args:
+        - VITE_AUTH_API_URL=/api/auth
+        - VITE_PRODUCT_API_URL=/api/products
     container_name: frontend-react
     ports:
       - "80:80"
+    volumes:
+      - ./fakestore-frontend/nginx.dev.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       - users-service
       - product-service
     networks:
       - cloudstore-net
+
+volumes:
+  mysql_data:
 
 networks:
   cloudstore-net:
