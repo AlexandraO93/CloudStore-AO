@@ -1,5 +1,7 @@
 package se.jensen.alexandra.fakestoreuserservice.controller.order;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.jensen.alexandra.fakestoreuserservice.dto.order.OrderResponseDTO;
@@ -9,6 +11,7 @@ import se.jensen.alexandra.fakestoreuserservice.service.OrderService;
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
+    private static final Logger log = LoggerFactory.getLogger(OrderController.class);
     private final OrderService service;
 
     public OrderController(OrderService service) {
@@ -22,6 +25,7 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderResponseDTO> getOrderById
             (@PathVariable Long orderId) {
+        log.debug("Get order by id={}", orderId);
         return ResponseEntity.ok(service.getOrderById(orderId));
     }
 
@@ -29,14 +33,15 @@ public class OrderController {
     public ResponseEntity<OrderResponseDTO> updateOrderStatus
             (@PathVariable Long orderId,
              @RequestParam Order.Status newStatus) {
+        log.info("Update order status requested orderId={} newStatus={}", orderId, newStatus);
         return ResponseEntity.ok(service.updateOrderStatus(orderId, newStatus));
     }
 
     @DeleteMapping("/{orderId}")
     public ResponseEntity<Void> cancelOrder
             (@PathVariable Long orderId) {
+        log.info("Cancel order requested orderId={}", orderId);
         service.cancelOrder(orderId);
         return ResponseEntity.noContent().build();
     }
-
 }

@@ -1,5 +1,7 @@
 package se.jensen.alexandra.fakestoreuserservice.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,6 +27,8 @@ import java.util.List;
 
 @Service
 public class OrderService {
+    private static final Logger log = LoggerFactory.getLogger(OrderService.class);
+
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final RestTemplate restTemplate;
@@ -41,6 +45,7 @@ public class OrderService {
     }
 
     public OrderResponseDTO createOrder(Long userId, OrderRequestDTO requestDTO) {
+        log.debug("Creating order for userId={} items={}", userId, requestDTO.items().size());
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
 
@@ -54,6 +59,7 @@ public class OrderService {
             String token = (attributes != null) ? attributes.getRequest().getHeader("Authorization") : null;
 
             if (token == null || token.isEmpty()) {
+                log.warn("Authorization header missing when creating order for userId={}", userId);
                 throw new IllegalStateException("No authorization token found in request");
             }
 
@@ -63,6 +69,7 @@ public class OrderService {
             HttpEntity<String> entity = new HttpEntity<>(headers);
 
             try {
+                log.debug("Calling product service for productId={} url={}", itemDTO.productId(), productServiceURL);
                 ResponseEntity<ProductDTO> response = restTemplate.exchange(
                         productServiceURL,
                         HttpMethod.GET,
@@ -73,6 +80,7 @@ public class OrderService {
                 ProductDTO product = response.getBody();
 
                 if (product == null) {
+                    log.warn("Product not found for productId={}", itemDTO.productId());
                     throw new IllegalArgumentException("Product not found with id: " + itemDTO.productId());
                 }
 
@@ -96,6 +104,7 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public List<OrderResponseDTO> getAllOrdersByUser(Long userId) {
+        log.info("Fetching all orders for userId={}", userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
         List<Order> orders = orderRepository.findByUser(user);
@@ -104,6 +113,7 @@ public class OrderService {
 
     @Transactional(readOnly = true)
     public OrderResponseDTO getOrderById(Long orderId) {
+        log.info("Fetching order by orderId={}", orderId);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderId));
         return mapper.toDto(order);
@@ -111,10 +121,12 @@ public class OrderService {
 
     @Transactional
     public OrderResponseDTO updateOrderStatus(Long orderId, Order.Status newStatus) {
+        log.info("Updating order status for orderId={} to newStatus={}", orderId, newStatus);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderId));
 
         if (order.getStatus() == Order.Status.CANCELLED) {
+            log.warn("Attempt to update status of a cancelled order with orderId={}", orderId);
             throw new IllegalStateException("Cannot update status of a cancelled order.");
         }
 
@@ -125,10 +137,12 @@ public class OrderService {
 
     @Transactional
     public OrderResponseDTO cancelOrder(Long orderId) {
+        log.info("Cancelling order with orderId={}", orderId);
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found with id: " + orderId));
 
         if (order.getStatus() == Order.Status.CANCELLED) {
+            log.warn("Attempt to cancel an already cancelled order with orderId={}", orderId);
             throw new IllegalStateException("Order is already cancelled.");
         }
 
