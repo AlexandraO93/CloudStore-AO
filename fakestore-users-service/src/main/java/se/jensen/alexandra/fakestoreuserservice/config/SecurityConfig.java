@@ -12,10 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import se.jensen.alexandra.fakestoreuserservice.security.JwtSigner;
+import se.jensen.alexandra.fakestoreuserservice.util.RequestIdFilter;
 
 import java.util.List;
 
@@ -43,10 +45,13 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .addFilterBefore(new RequestIdFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         //Öppnar upp för token, och att kunna registrera sig
                         .requestMatchers(HttpMethod.POST, "/users/register/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/request-token/**").permitAll()
+                        .requestMatchers("/health/**").permitAll()
+                        .requestMatchers("/whoami/**").permitAll()
                         .requestMatchers("/products/**").authenticated()
                         .requestMatchers("/.well-known/jwks.json").permitAll()
 
