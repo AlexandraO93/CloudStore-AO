@@ -4,12 +4,6 @@ En molnbaserad e-handelsapplikation byggd med mikrotjänstarkitektur. CloudStore
 
 ---
 
-## Live Demo
-
-[cloudstore-ao.duckdns.org](https://cloudstore-ao.duckdns.org/)
-
----
-
 ## Innehållsförteckning
 
 - [Höjdpunkter](#höjdpunkter)
@@ -21,7 +15,7 @@ En molnbaserad e-handelsapplikation byggd med mikrotjänstarkitektur. CloudStore
 - [CI/CD](#cicd)
 - [Deployment](#deployment)
 - [Projektstruktur](#projektstruktur)
-- [Vad jag lärt mig](#vadjaglärtmig)
+- [Erfarenheter](#erfarenheter)
 
 ---
 
@@ -105,6 +99,46 @@ users-service signerar tokens med en privat RSA-nyckel (RS256). product-service 
 - Se orderhistorik
 - Visa orderdetaljer
 - Uppdatera profiluppgifter
+
+---
+
+## Skärmdumpar
+
+<details>
+<summary>📸 Klicka för att visa skärmdumpar från applikationen</summary>
+
+### Autentisering
+#### Logga in & Skapa konto
+<img src="images/login.png" width="45%"/> <img src="images/register.png" width="45%"/>
+
+### Produktvyer
+#### Alla produkter
+![Alla produkter](images/products.png)
+
+#### Filtrerade produkter efter kategori
+![Filtrerade produkter](images/filtered-products.png)
+
+#### Produktdetaljer
+![Produktdetaljer](images/product-details.png)
+
+#### Favorit produkter
+![Favoriter](images/liked.png)
+
+### Köpflöde
+#### Varukorg
+![Varukorg](images/cart.png)
+
+#### Kassa & Orderbekräftelse
+<img src="images/checkout.png" width="45%"/> <img src="images/confirmation.png" width="45%"/>
+
+### Användarprofil & Orderhistorik
+#### Min Profil
+![Min profil](images/profile.png)
+
+#### Beställningar för Alexandra
+![Mina beställningar](images/orders.png)
+
+</details>
 
 ---
 
@@ -275,7 +309,7 @@ cloudstore/
 
 ---
 
-## Vad jag lärt mig
+## Erfarenheter
 
 Under utvecklingen av CloudStore har jag fördjupat mina kunskaper inom:
 
